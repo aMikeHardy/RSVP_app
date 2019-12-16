@@ -1,12 +1,16 @@
+// select elements
 const form = document.getElementById('registrar'); // select form element
 const input = form.querySelector('input'); // select input element in form
-
 const ul = document.getElementById('invitedList');
 
+
+// function to create list item
 function createLi(text){
-        // select element, create element, appened to element.
+    // create element, set attributes, appened to element.
     const li = document.createElement('li');
-    li.textContent = text;
+    const span = document.createElement('span');
+    span.textContent = text;
+    li.appendChild(span);
     
     const label = document.createElement('label');
     label.textContent = 'Confirmed';
@@ -16,6 +20,11 @@ function createLi(text){
     
     label.appendChild(checkbox);
     li.appendChild(label);
+
+        // remove button
+    const editButton = document.createElement('button');
+    editButton.textContent = 'Edit';
+    li.appendChild(editButton);
     
     // remove button
     const removeButton = document.createElement('button');
@@ -25,9 +34,9 @@ function createLi(text){
     return li;  // js functions return undefined by default... return statement is needed.
 }
 
+// submit name/text
 form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
+    e.preventDefault();  
     const text = input.value;   
     input.value = "";
 
@@ -35,10 +44,7 @@ form.addEventListener('submit', (e) => {
 
     // append li to ul
     ul.appendChild(li);
-
-
 });
-
 
 // handler for checkbox
 ul.addEventListener('change', (e) => {
@@ -54,11 +60,31 @@ ul.addEventListener('change', (e) => {
     }
 });
 
+// remove/edit list item
 ul.addEventListener('click', (e) => {
-    if (e.target.tagName === 'BUTTON'){
-        const li = e.target.parentNode;
-        const ul = li.parentNode;
 
+    const button = e.target;
+    const li = button.parentNode;
+    const ul = li.parentNode;
+
+    if (button.textContent === 'Remove'){
         ul.removeChild(li);
+    }else if (button.textContent === 'Edit'){
+        const span = li.firstElementChild;  // select span
+        const input = document.createElement('input');  // create an input element
+        input.type = 'text'; // set input type attribute to text
+        input.value = span.textContent;  // set input value to the span textContent
+        
+        li.insertBefore(input, span);  //input first, then span
+        li.removeChild(span);
+        button.textContent = "Save";
+    }else if (button.textContent === 'Save'){
+        const input = li.firstElementChild;
+        const span = document.createElement('span');
+        span.textContent = input.value;
+        
+        li.insertBefore(span, input);
+        li.removeChild(input);
+        button.textContent = "Edit";
     }
 });
