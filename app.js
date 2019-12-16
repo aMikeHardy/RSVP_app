@@ -96,25 +96,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const li = button.parentNode;
         const ul = li.parentNode;
 
-        if (button.textContent === 'Remove'){
+        function removeName() {
             ul.removeChild(li);
-        }else if (button.textContent === 'Edit'){
+        }
+
+        function editName() {
             const span = li.firstElementChild;  // select span
             const input = document.createElement('input');  // create an input element
             input.type = 'text'; // set input type attribute to text
             input.value = span.textContent;  // set input value to the span textContent
-            
             li.insertBefore(input, span);  //input first, then span
             li.removeChild(span);
             button.textContent = "Save";
-        }else if (button.textContent === 'Save'){
+        }
+
+        function saveName() {
             const input = li.firstElementChild;
             const span = document.createElement('span');
             span.textContent = input.value;
-            
             li.insertBefore(span, input);
             li.removeChild(input);
             button.textContent = "Edit";
+        }
+
+        if (button.textContent === 'Remove'){
+            removeName();
+        }else if (button.textContent === 'Edit'){
+            editName();
+        }else if (button.textContent === 'Save'){
+            saveName();
         }
     });
 
