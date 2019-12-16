@@ -39,34 +39,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
-
     // function to create list item
     function createLi(text){
         // create element, set attributes, appened to element.
+        function createElement(elementName, property, value) {
+            const element = document.createElement(elementName);
+            element[property] = value;
+            return element;
+        }
+
+    function appendToLI( elementName, property, value) {
+        const element = createElement(elementName, property, value);
+        li.appendChild(element);
+        return element;
+    }
+
         const li = document.createElement('li');
-        const span = document.createElement('span');
-        span.textContent = text;
-        li.appendChild(span);
-        
-        const label = document.createElement('label');
-        label.textContent = 'Confirmed';
-        
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        
-        label.appendChild(checkbox);
-        li.appendChild(label);
-
-            // remove button
-        const editButton = document.createElement('button');
-        editButton.textContent = 'Edit';
-        li.appendChild(editButton);
-        
-        // remove button
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'Remove';
-        li.appendChild(removeButton);
-
+        appendToLI('span', 'textContent', text); 
+        appendToLI('label', 'textContent', 'Confirmed')
+            .appendChild(createElement('input', 'type', 'checkbox'));
+        appendToLI('button', 'textContent', 'Edit');
+        appendToLI('button', 'textContent', 'Remove');
         return li;  // js functions return undefined by default... return statement is needed.
     }
 
